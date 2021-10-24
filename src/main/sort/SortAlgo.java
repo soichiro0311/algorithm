@@ -6,6 +6,10 @@ import java.util.List;
 public class SortAlgo {
 
 	public static List<Integer> insertionSort(List<Integer> input) {
+		return insertionSortByDiff(input, 0);
+	}
+
+	private static List<Integer> insertionSortByDiff(List<Integer> input, int diff) {
 		System.out.println("<--- ソート開始 --->");
 		System.out.println(input);
 		List<Integer> sortTargetList = new ArrayList<Integer>(input);
@@ -13,7 +17,8 @@ public class SortAlgo {
 		for (int index = 1; index < sortTargetList.size(); index++) {
 			int currentSortingTarget = sortTargetList.get(index);
 			int alreadySortedListIndex = index - 1;
-			while (alreadySortedListIndex >= 0 && sortTargetList.get(alreadySortedListIndex) > currentSortingTarget) {
+			while (alreadySortedListIndex >= 0
+					&& sortTargetList.get(alreadySortedListIndex) > currentSortingTarget + diff) {
 				sortTargetList.set(alreadySortedListIndex + 1, sortTargetList.get(alreadySortedListIndex));
 				alreadySortedListIndex--;
 			}
@@ -32,12 +37,12 @@ public class SortAlgo {
 		for (int i = 0; shouldContinueSort; i++) {
 			shouldContinueSort = false;
 			for (int j = sortTargetList.size() - 1; j >= i + 1; j--) {
-				if(sortTargetList.get(j) < sortTargetList.get(j-1)) {
-					int greater = sortTargetList.get(j-1);
+				if (sortTargetList.get(j) < sortTargetList.get(j - 1)) {
+					int greater = sortTargetList.get(j - 1);
 					int less = sortTargetList.get(j);
 					sortTargetList.set(j, greater);
-					sortTargetList.set(j-1, less);
-					shouldContinueSort=true;
+					sortTargetList.set(j - 1, less);
+					shouldContinueSort = true;
 					System.out.println(sortTargetList);
 				}
 			}
@@ -51,10 +56,10 @@ public class SortAlgo {
 		System.out.println("<--- ソート開始 --->");
 		System.out.println(input);
 		List<Integer> sortTargetList = new ArrayList<Integer>(input);
-		for (int i = 0; i < sortTargetList.size()-1; i++) {
+		for (int i = 0; i < sortTargetList.size() - 1; i++) {
 			int minValueIndex = i;
 			for (int j = i; j < sortTargetList.size(); j++) {
-				if(sortTargetList.get(j) < sortTargetList.get(minValueIndex)) {
+				if (sortTargetList.get(j) < sortTargetList.get(minValueIndex)) {
 					minValueIndex = j;
 				}
 			}
@@ -67,5 +72,10 @@ public class SortAlgo {
 
 		System.out.println("<--- ソート終了 --->");
 		return sortTargetList;
+	}
+
+	public static List<Integer> shellSort(List<Integer> input, int diff) {
+		List<Integer> tempSortedList = insertionSortByDiff(input, diff);
+		return insertionSortByDiff(tempSortedList, 0);
 	}
 }
